@@ -2,7 +2,12 @@ const puppeteer = require('puppeteer');
 const { Parser } = require('json2csv');
 var fs = require("fs");
 
-puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1920,1080','--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'] }).then(async browser => {
+puppeteer_args = ['--no-sandbox', 
+'--disable-setuid-sandbox', 
+'--window-size=1920,1080',
+'--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"']
+
+puppeteer.launch({ headless: true, puppeteer_args}).then(async browser => {
 
     var pages = [
     "https://www.amazon.com/Hormel-Black-Label-Bacon-Original/product-reviews/B000Q3AEBG/ref=cm_cr_arp_d_paging_btm_next_2?pageNumber=1"
@@ -16,7 +21,7 @@ puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sand
     for (var x=0; x<pages.length; x++){
         //console.log(x)
         await page.goto(pages[x]);
-        await page.waitFor(5000);
+        await page.waitForTimeout(5000);
 
         var news = await page.evaluate(() => {
             var scrape_data = [];
